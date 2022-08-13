@@ -1,5 +1,5 @@
 /* Global data */
-const url = 'http://localhost:8080/ws';
+const url = 'https://fast-chatapp.herokuapp.com/ws'
 let stompClient = null;
 var username = null;
 var message = document.querySelector('#msg');
@@ -56,12 +56,12 @@ function onMessageReceived(response){
     var messageDiv = document.getElementById("messages");
     var content = null;
 
-    if(responseData.status == "JOIN") {
-        content = '<div class="container" style="text-align: center">' +
-            '<b style="color:gray" class="right">' +
-             responseData.senderName +
-            "</b><p>" + 'Joined!</p></div>';
-    } else if(responseData.senderName == username){
+     if(responseData.status == "JOIN") {
+            content = '<div class="container" style="text-align: center">' +
+                '<b style="color:gray" class="right">' +
+                 responseData.senderName +
+                "</b><p>" + 'Joined!</p></div>';
+     } else if(responseData.senderName == username){
         content = '<div class="container darker" style="text-align: right">' +
             '<b style="color:#000" class="right">' +
              responseData.senderName +
