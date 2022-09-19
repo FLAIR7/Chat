@@ -52,6 +52,7 @@ function login(dispatch, output) {
         validation(newUser);
         login(dispatch)    
     });
+    
 }
 
 function message(){

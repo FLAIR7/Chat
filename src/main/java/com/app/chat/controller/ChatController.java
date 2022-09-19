@@ -1,37 +1,32 @@
 package com.app.chat.controller;
 
 import com.app.chat.model.Message;
+import com.app.chat.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ChatController {
 
     private final SimpMessagingTemplate simpl;
+    private final MessageRepository repository;
 
     @Autowired
-    public ChatController(SimpMessagingTemplate simpl) {
+    public ChatController(SimpMessagingTemplate simpl,
+                          MessageRepository repository) {
         this.simpl = simpl;
+        this.repository = repository;
     }
 
     @MessageMapping("/message")
     @SendTo("/chatroom/public")
     public Message receivePublicMessage(@Payload Message message){
+        if(message.getMessage() != null)
+            repository.save(message);
         return message;
     }
-
-    @MessageMapping("/private-message")
-    public Message recMessage(@Payload Message message){
-        simpl.convertAndSendToUser(message.getReceiverName(),"/private",message);
-        System.out.println(message.getMessage());
-        return message;
-    }
-
 }

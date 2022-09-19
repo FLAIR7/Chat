@@ -1,8 +1,31 @@
 /* Global data */
-const url = 'https://fast-chatapp.herokuapp.com/ws'
+/*const url = 'https://fast-chatapp.herokuapp.com/ws'*/
+const url = 'http://localhost:8080/ws';
 let stompClient = null;
 var username = null;
 var message = document.querySelector('#msg');
+
+function history(){
+    if(username) {
+        let chat = document.getElementsByClassName('container')[0];
+        chat.classList.add('d-none');
+        let history = document.getElementById('history');
+        history.classList.remove('d-none');
+    } else {
+        alert("You must login to see your messages");
+    }
+}
+
+function chat(){
+    if(username) {
+        let chat = document.getElementsByClassName('container')[0];
+        chat.classList.remove('d-none');
+        let history = document.getElementById('history');
+        history.classList.add('d-none');
+    } else {
+        alert("You Must Login to enter in the chat");
+    }
+}
 
 function date(){
     var data = new Date();
