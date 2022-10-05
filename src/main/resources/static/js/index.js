@@ -5,12 +5,40 @@ let stompClient = null;
 var username = null;
 var message = document.querySelector('#msg');
 
+function fetch(){
+    let a = document.getElementById('history-msg');
+    a.innerHTML = "";
+    $.ajax({
+        method: "GET",
+        url: "messages",
+        dataType: "json",
+        success: function(res) {
+            console.log(res[0]);
+            res.forEach(function (response, index) {
+                if(res[index].senderName == username)
+                    a.innerHTML += '<p style="color:white">' + response.message + '</p>';
+            });
+        }
+    })
+}
+
+function logout(){
+    if(username){
+        var chatMessage = {
+            senderName: username,
+            status: "LEAVE"
+        };
+        stompClient.send("/app/message", {}, JSON.stringify(chatMessage));
+    }
+}
+
 function history(){
     if(username) {
         let chat = document.getElementsByClassName('container')[0];
         chat.classList.add('d-none');
         let history = document.getElementById('history');
         history.classList.remove('d-none');
+        fetch();
     } else {
         alert("You must login to see your messages");
     }
@@ -84,6 +112,11 @@ function onMessageReceived(response){
                 '<b style="color:gray" class="right">' +
                  responseData.senderName +
                 "</b><p>" + 'Joined!</p></div>';
+     } else if(responseData.status == "LEAVE") {
+        content = '<div class="container" style="text-align: center">' +
+                '<b style="color:gray" class="right">' +
+                 responseData.senderName +
+                "</b><p>" + 'Exit!</p></div>';
      } else if(responseData.senderName == username){
         content = '<div class="container darker" style="text-align: right">' +
             '<b style="color:#000" class="right">' +

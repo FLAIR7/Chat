@@ -23,7 +23,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <div class="navbar-nav">
-                <a class="nav-item nav-link" href="/">Login<span class="sr-only">(current)</span></a>
+                <a class="nav-item nav-link" href="/" onclick="logout()">Login/Logout</a>
                 <a class="nav-item nav-link" onclick="history()">History</a>
                 <a class="nav-item nav-link" onclick="chat()">Chat</a>
             </div>
@@ -52,7 +52,7 @@
 
     <div class="container d-none" id="history">
         <h1>All Your Messages: </h1>
-        <div class="overflow-auto msgs" style="overflow-y: scroll; height:500px; background-color: #000;">
+        <div class="overflow-auto msgs" style="overflow-y: scroll; height:500px; background-color: #000;" id="history-msg">
             <p>teste</p>
         </div>
     </div>
